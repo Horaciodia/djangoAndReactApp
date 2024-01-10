@@ -1,5 +1,6 @@
 import './App.css';
-import Home from './components/Home.jsx';
+import SignUp from './components/SignUp.jsx';
+import Login from './components/Login.jsx'
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 
 function App() {
@@ -7,7 +8,9 @@ function App() {
   <div>
     <Router>
       <Routes>
-        <Route path='/' exact element={<Home />} />
+        <Route path='/signup' exact element={<SignUp />} />
+        <Route path='/login' exact element={<Login />} />
+        <Route path='/user/:username' exact element={<UserProfile />} />
       </Routes> 
     </Router> 
   </div>);

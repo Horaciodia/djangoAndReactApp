@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-function Home() {
+function SignUp() {
     const [state, setState] = useState({
         username: '',
         password: '',
         firstName: '',
-        lastName: ''
+        lastName: '', 
+        posts: []
     });
 
     function handler(field, value) {
@@ -36,4 +37,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default SignUp;
