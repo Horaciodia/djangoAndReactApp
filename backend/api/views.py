@@ -4,6 +4,7 @@ from .serializers import UserModelSerializer
 from django.contrib.auth.hashers import check_password, make_password
 import json
 from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 class UserModelListView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
@@ -42,5 +43,12 @@ class UserModelListView(generics.ListCreateAPIView):
             else:
                 return JsonResponse({'message': 'Invalid password'})            
 
-    queryset = UserModel.objects.all()
-    serializer_class = UserModelSerializer
+class GetUser(generics.ListCreateAPIView):
+    def get(self, request, *args, **kwargs):
+        username = request.GET.get('username')
+        try:
+            user = UserModel.objects.get(username=username)
+            serializer = UserModelSerializer(user)
+            return JsonResponse(serializer.data)
+        except:
+            return JsonResponse({'error': 'No user with that username'})
