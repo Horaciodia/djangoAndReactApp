@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 
 function Login() {
+    const navigate = useNavigate();
+    
     const [state, setState] = useState({
         username: '',
         password: ''
@@ -24,6 +27,8 @@ function Login() {
             } 
         });
         console.log(response);
+
+        navigate(`/user/${state.username}`)
     }
 
     return (

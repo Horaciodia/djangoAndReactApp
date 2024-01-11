@@ -4,11 +4,7 @@ import axios from 'axios';
 
 function UserProfile() {
     const { username } = useParams();
-
-    const [state, setState] = useState({
-        username: '',
-        posts: [],
-    });
+    const [state, setState] = useState(null);
 
     const getUserData = async () => {
         const response = await axios.get('http://localhost:8000/api/getUser/', {
@@ -16,20 +12,32 @@ function UserProfile() {
                 username: username
             }
         });
+
+        console.log(response);
     
         return response.data;
     }
 
-    let userData = getUserData();
+    useEffect(() => {
+        const userReciever = async () => {
+            let userData = await getUserData();
+            setState(userData);
+        }
+
+        userReciever();
+    }, []);
     
     return (
-        <>
-            <h1>{userData.username}</h1>
-
-            <h2>Posts: {userData.posts}</h2>
-            <Link to='/posts/new'>Create new post</Link>
-        </>
-    )
+        state ? (
+            <>
+                <h1>{state.username}</h1>
+                <h2>Posts: {state.posts}</h2>
+                <Link to='/posts/new'>Create new post</Link>
+            </>
+        ) : (
+            <h1>Loading...</h1>
+        )
+    );
 }
 
 export default UserProfile;
